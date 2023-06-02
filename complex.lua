@@ -1,6 +1,6 @@
----@class Complex # класс комплексных чисел 
----@field real number # действительная часть числа
----@field imagin number # комплексная часть числа
+---@class Complex # Complex number class
+---@field real number # real part of a complex number
+---@field imagin number # imagin part of a complex number
 local Complex = {}
 
 ---@return Complex?
@@ -11,7 +11,8 @@ local function convert_to_complex(a)
         return Complex:new(a,0)
     end
 end
----создает новое комплесное число
+
+---Create a new complex number
 ---@param real number?
 ---@param imagin number?
 ---@return Complex
@@ -22,10 +23,7 @@ function Complex.new(self,real,imagin)
     return num
 end
 
-
-
-
---вычисляет квадрат модуля комплесного числа
+--- calculate squared module of the complex number. return  an error if input cannot be convert into complex number
 ---@param self Complex | number
 ---@return number?
 ---@return string? #error log
@@ -36,7 +34,7 @@ function Complex.sqr_len(self)
     return self.real^2 + self.imagin^2
 end
 
----Вычисляет комплесное сопряжение заданного числа
+---calculate conjugation of complex number
 ---@param self  Complex | number
 ---@return Complex?
 ---@return string? #error log
@@ -47,7 +45,7 @@ function Complex.conjugate(self)
     return Complex:new(self.real,-self.imagin)
 end
 
----вычисляет  модуля комплесного числа
+---calculate module of the complex number
 ---@param self Complex | number
 ---@return number?
 ---@return string? #error log
