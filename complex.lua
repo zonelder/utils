@@ -57,6 +57,12 @@ function Complex.len(self)
 end
 
 
+
+--- multiply two complex numbers
+---@param a Complex | number
+---@param b Complex | number
+---@return Complex?
+---@return string? #error log
 function Complex.__mul(a,b)
     local a = convert_to_complex(a)
     local b = convert_to_complex(b)
@@ -65,6 +71,11 @@ function Complex.__mul(a,b)
     return Complex:new(a.real*b.real - a.imagin*b.imagin , a.real*b.imagin + a.imagin*b.real)
 end
 
+--- summ two complex numbers
+---@param a Complex | number
+---@param b Complex | number
+---@return Complex?
+---@return string? #error log
 function Complex.__add(a,b)
     local a = convert_to_complex(a)
     local b = convert_to_complex(b)
@@ -73,6 +84,11 @@ function Complex.__add(a,b)
     return Complex:new(a.real + b.real , a.imagin + b.imagin)
 end
 
+--- subtract first complex number from second one
+---@param a Complex | number
+---@param b Complex | number
+---@return Complex?
+---@return string? #error log
 function Complex.__sub(a,b)
     local a = convert_to_complex(a)
     local b = convert_to_complex(b)
@@ -81,12 +97,21 @@ function Complex.__sub(a,b)
     return Complex:new(a.real - b.real,a.imagin - b.imagin)
 end
 
+
+---@param a Complex | number
+---@return Complex?
+---@return string? #error log
 function Complex.__unm(a)
     local a = convert_to_complex(a)
     if not a then return nil,"agument is not a number" end
     return Complex:new(-a.real,-a.imagin)
 end
 
+--- divide first complex number from second one
+---@param a Complex | number
+---@param b Complex | number
+---@return Complex?
+---@return string? #error log
 function Complex.__div(a,b)
     local a = convert_to_complex(a)
     local b = convert_to_complex(b)
