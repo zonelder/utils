@@ -1,12 +1,16 @@
----@class Complex : number[2] # Complex number class
----@field sqr_len fun(self: Complex| number) # Calculate squared module of the complex number. return  an error if input cannot be convert into complex number
----@field len fun(self: Complex| number) # Calculate module of the complex number
----@field conjugate fun(self: Complex | number) # calculate conjugation of complex number
----@field Re fun(self: Complex|number) # return real part of the complex number
----@field Im fun(self: Complex|number) # return imagin part of the complex number
+---@class ComplexClass
+---@operator call(number):Complex
+local Complex_class = {}
+
+---@class Complex : ComplexClass # Complex number class
+---@operator add:Complex
+---@operator sub:Complex
+---@operator unm:Complex
+---@operator mul:Complex
+---@operator div:Complex
 local ComplexNumber = {}
 
-local Complex_class = {}
+
 
 ---@return Complex?
 local function convert_to_complex(a)
@@ -154,10 +158,14 @@ function ComplexNumber.__tostring(self)
     return string.format("( %s , %s )",self[1],self[2])
 end
 
+--- if number dont provide method it seek same in own class
+---@return ComplexClass
 function ComplexNumber.__index(self,key)
     return Complex_class[key]
 end
 
-return setmetatable(Complex_class,{__call = function (self,a,b)
+
+return setmetatable(Complex_class,{
+    __call = function (self,a,b)
     return Complex_class.new(a,b)
 end})
