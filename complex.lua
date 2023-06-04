@@ -15,7 +15,7 @@ local ComplexNumber = {}
 ---@return Complex?
 local function convert_to_complex(a)
     if type(a) == "table" then
-        return Complex_class.new(a[1],a[2])
+        return setmetatable(a,ComplexNumber)
     elseif type(a) == "number" then
         return Complex_class.new(a,0)
     end
@@ -54,38 +54,64 @@ function Complex_class.conjugate(self)
     return Complex_class.new(self[1],-self[2])
 end
 
----calculate module of the complex number
+---get\set module of the complex number
 ---@param self Complex | number[]
+---@param value number?
 ---@return number?
 ---@return string? #error log
-function Complex_class.len(self)
+function Complex_class.len(self,value)
     local self = convert_to_complex(self)
     if not self then return nil,"agument is not a number" end
-
+    if value then
+        local m = value/self:len()
+        self[1] = self[1]*m
+        self[2] = self[2]*m
+        return value
+    end
     return  math.sqrt(Complex_class.sqr_len(self) or 1)
-end
-
-
---- return real part of the number
----@param self Complex | number[]
----@return number?
----@return string? #error log
-function Complex_class.Re(self)
-    local self = convert_to_complex(self)
-    if not self then return nil,"agument is not a number" end
-    return self[1]
 end
 
 --- return imagin part of the number
 ---@param self Complex | number[]
+---@param value number? # new value in radians for imagin part
 ---@return number?
 ---@return string? #error log
-function Complex_class.Im(self)
+function Complex_class.Fi(self,value)
     local self = convert_to_complex(self)
     if not self then return nil,"agument is not a number" end
-    return self[2]
+    local len  = self:len()
+    if value then
+        self[1] = len*math.cos(value)
+        self[2] = len*math.sin(value)
+        return value
+    end
+    return math.acos(self[1]/len)
 end
 
+
+--- get\set real part of the number
+---@param self Complex | number[]
+---@param value number? # new value for real part
+---@return number?
+---@return string? #error log
+function Complex_class.Re(self,value)
+    local self = convert_to_complex(self)
+    if not self then return nil,"agument is not a number" end
+    if value then self[1] = value end
+    return self[1]
+end
+
+--- get\set angle of the number
+---@param self Complex | number[]
+---@param value number? # new value for angle part
+---@return number?
+---@return string? #error log
+function Complex_class.Im(self,value)
+    local self = convert_to_complex(self)
+    if not self then return nil,"agument is not a number" end
+    if value then self[2] = value end
+    return self[2]
+end
 
 
 --- multiply two complex numbers
