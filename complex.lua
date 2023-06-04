@@ -1,6 +1,26 @@
 ---@class ComplexClass
+---@field LOOK_TYPE table
 ---@operator call(number):Complex
 local Complex_class = {}
+
+
+---@enum LOOK_TYPE
+local iternal_look = {
+    VECTOR = 1,
+    ALGEBRAIC = 2,
+    TRIGONOMETRIC = 3,
+    EXPONENTIAL = 4,
+}
+local currentLook =  iternal_look.VECTOR
+Complex_class.LOOK_TYPE = iternal_look
+
+local format_by_type = {
+    [iternal_look.VECTOR] = function (number) return string.format("( %.2f , %.2f )",number[1],number[2]) end,
+    [iternal_look.ALGEBRAIC] = function (number) return string.format("%.2f %+.2f*i",number[1],number[2])end,
+    [iternal_look.TRIGONOMETRIC] = function (number) return string.format("%.2f*(cos(%.2f) + sin(%.2f)*i)",number:len(),number:Fi(),number:Fi())end ,
+    [iternal_look.EXPONENTIAL] = function (number) return string.format("%.2f*Exp(%.2f*i)",number:len(),number:Fi()) end
+}
+
 
 ---@class Complex : ComplexClass # Complex number class
 ---@operator add:Complex
@@ -9,6 +29,7 @@ local Complex_class = {}
 ---@operator mul:Complex
 ---@operator div:Complex
 local ComplexNumber = {}
+
 
 
 
@@ -30,6 +51,13 @@ function Complex_class.new(real,imagin)
     num[1] = real or 0
     num[2] = imagin or 0
     return num
+end
+
+---set representation of all Complex numbers
+---@param self ComplexClass | Complex
+---@param type number #type from LOOK_TYPE enum
+function Complex_class.setLookType(self,type)
+    if format_by_type[type] then currentLook = type end
 end
 
 --- calculate squared module of the complex number. return  an error if input cannot be convert into complex number
@@ -181,7 +209,7 @@ end
 
 
 function ComplexNumber.__tostring(self)
-    return string.format("( %s , %s )",self[1],self[2])
+    return format_by_type[currentLook](self)
 end
 
 --- if number dont provide method it seek same in own class
