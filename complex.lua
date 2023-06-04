@@ -71,9 +71,9 @@ function Complex_class.len(self,value)
     return  math.sqrt(Complex_class.sqr_len(self) or 1)
 end
 
---- return imagin part of the number
+--- return angle of the number
 ---@param self Complex | number[]
----@param value number? # new value in radians for imagin part
+---@param value number? # new value in radians for angle
 ---@return number?
 ---@return string? #error log
 function Complex_class.Fi(self,value)
@@ -101,9 +101,9 @@ function Complex_class.Re(self,value)
     return self[1]
 end
 
---- get\set angle of the number
+--- get\set imagin of the number
 ---@param self Complex | number[]
----@param value number? # new value for angle part
+---@param value number? # new value for imagin part
 ---@return number?
 ---@return string? #error log
 function Complex_class.Im(self,value)
